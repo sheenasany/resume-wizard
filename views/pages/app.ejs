@@ -61,7 +61,16 @@
       <a>Analyze Resume</a>
       <a>Settings</a>
     </div>
-    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+    <form
+    id="upload-form"
+    action="/upload"
+    method="post"
+    enctype="multipart/form-data"
+    hx-post="api/upload"
+    hx-swap="outerHTML"
+    hx-params="*"
+    id="demoform"
+    action="">
       <h2>Upload Your Resume</h2>
       <div id="drop-area">
         <p>Drag & Drop PDF file here</p>
