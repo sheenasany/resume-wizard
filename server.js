@@ -2,6 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const PDFParser = require('pdf-parse');
 const app = express();
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const Database = require('./database/database.js');
 
@@ -19,8 +22,9 @@ const storage = multer.memoryStorage(); // Store the file in memory
 const upload = multer({ storage: storage });
 
 // Handle the file upload
-app.post('/upload', upload.single('resume'), async (req, res) => {
-  const file = req.file;
+app.post('/upload', async (req, res) => {
+  console.log("body", req.body)
+  const file = req?.body.resume;
   if (!file) {
     res.send('Error: No file uploaded');
   } else {
@@ -28,13 +32,14 @@ app.post('/upload', upload.single('resume'), async (req, res) => {
 
     try {
       const data = await PDFParser(buffer); // Parse the PDF buffer
+      console.log("data", data)
 
       // Process the data and insert it into the database
       // Example:
       const textContent = data.text;
       // Insert 'textContent' into your database
 
-      res.send('PDF parsed and data inserted into the database');
+      res.send('PDF parsed and data inserted into the database' + textContent);
     } catch (error) {
       console.error(error);
       res.status(500).send('Error parsing the PDF');
