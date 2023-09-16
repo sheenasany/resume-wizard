@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Query Result</title>
+</head>
+<body>
+  <h1>Query Result</h1>
+  <ul>
+    <% rows.forEach(row => { %>
+      <li><%= row.job_title %> at <%= row.company_name %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>
