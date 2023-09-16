@@ -1,0 +1,52 @@
+
+<style>
+    #drop-area {
+      width: 300px;
+      height: 100px;
+      border: 2px dashed #ccc;
+      text-align: center;
+      padding: 20px;
+      margin: 0 auto;
+     opacity: 0.5;
+    }
+
+    /* Style for the "Upload Resume" button */
+    #upload-resume-label {
+        display: inline-block;
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        pointer-events: none;
+      }
+
+    /* Hide the file input element */
+    #file-input {
+        display: none;
+    }
+</style>
+
+<form
+    id="upload-form"
+    action="/upload"
+    method="post"
+    enctype="multipart/form-data"
+    hx-post="api/upload"
+    hx-swap="outerHTML"
+    hx-params="*"
+    id="demoform"
+    action=""
+    disabled="disabled">
+      <h2>Upload Your Resume</h2>
+      <div id="drop-area">
+        <p>Drag & Drop PDF file here</p>
+        <!-- Label and file input element for selecting a file -->
+        <label for="file-input" id="upload-resume-label">Upload Resume</label>
+        <input type="file" id="file-input" name="resume" accept=".pdf" disabled/>
+        <!-- Allow only PDF files -->
+      </div>
+      <ul id="file-list">
+
+      </ul>
+      <button type="submit">Submit</button>
+    </form>
