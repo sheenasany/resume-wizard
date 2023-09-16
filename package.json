@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/sheenasany/resume-wizard/issues"
   },
-  "homepage": "https://github.com/sheenasany/resume-wizard#readme"
+  "homepage": "https://github.com/sheenasany/resume-wizard#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1",
+    "sqlite3": "^5.1.6"
+  }
 }
