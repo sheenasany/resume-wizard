@@ -11,11 +11,24 @@ app.use(express.static('public'));
 
 const db = new Database('database/resume-wizard-db.sqlite');
 
+// Define routes for home page, App, and Settings
+app.get('/', (req, res) => {
+  res.render('pages/home');
+});
+
+app.get('/App', (req, res) => {
+  res.render('pages/app');
+});
+
+app.get('/Settings', (req, res) => {
+  res.render('pages/settings');
+});
+
 // Define a route to handle the query
 app.get('/query', async (req, res) => {
   try {
     const rows = await db.query('SELECT * FROM experience', []);
-    res.render('queryResult', { rows });
+    res.render('partials/queryResult', { rows });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
