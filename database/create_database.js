@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('resume-wizard-db.sqlite'); // Change 'your_database_name.sqlite' to the desired database name.
+const db = new sqlite3.Database('database/resume-wizard-db.sqlite'); // Change 'your_database_name.sqlite' to the desired database name.
 
 // Define your schema here
 const createTablesQuery = `
