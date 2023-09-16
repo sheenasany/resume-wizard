@@ -61,17 +61,19 @@
       <a>Analyze Resume</a>
       <a>Settings</a>
     </div>
-    <div>
+    <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
       <h2>Upload Your Resume</h2>
       <div id="drop-area">
         <p>Drag & Drop PDF file here</p>
         <!-- Label and file input element for selecting a file -->
         <label for="file-input" id="upload-resume-label">Upload Resume</label>
-        <input type="file" id="file-input" accept=".pdf" />
+        <input type="file" id="file-input" name="resume" accept=".pdf" />
         <!-- Allow only PDF files -->
       </div>
       <ul id="file-list"></ul>
-
+      <button type="submit">Submit</button>
+    </form>
+    
       <script>
         const dropArea = document.getElementById("drop-area");
         const fileList = document.getElementById("file-list");

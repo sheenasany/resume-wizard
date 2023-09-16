@@ -1,4 +1,6 @@
 const express = require('express');
+const multer = require('multer');
+const PDFParser = require('pdf-parse');
 const app = express();
 
 const Database = require('./database/database.js');
@@ -10,6 +12,35 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 const db = new Database('database/resume-wizard-db.sqlite');
+
+// Define storage for uploaded files
+const storage = multer.memoryStorage(); // Store the file in memory
+
+const upload = multer({ storage: storage });
+
+// Handle the file upload
+app.post('/upload', upload.single('resume'), async (req, res) => {
+  const file = req.file;
+  if (!file) {
+    res.send('Error: No file uploaded');
+  } else {
+    const buffer = file.buffer; // Access the uploaded file as a buffer
+
+    try {
+      const data = await PDFParser(buffer); // Parse the PDF buffer
+
+      // Process the data and insert it into the database
+      // Example:
+      const textContent = data.text;
+      // Insert 'textContent' into your database
+
+      res.send('PDF parsed and data inserted into the database');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error parsing the PDF');
+    }
+  }
+});
 
 // Define routes for home page, App, and Settings
 app.get('/', (req, res) => {
