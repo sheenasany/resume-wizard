@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.5"
+      integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+      crossorigin="anonymous"
+    ></script>
+
     <title>App Page</title>
     <style>
       #drop-area {
@@ -62,13 +68,21 @@
       <a>Settings</a>
     </div>
     <div>
+      <form
+      hx-post="/api/upload"
+      hx-swap="outerHTML"
+      hx-params="*"
+      id="demofrom"
+      action=""
+    >
       <h2>Upload Your Resume</h2>
       <div id="drop-area">
-        <p>Drag & Drop PDF file here</p>
-        <!-- Label and file input element for selecting a file -->
-        <label for="file-input" id="upload-resume-label">Upload Resume</label>
-        <input type="file" id="file-input" accept=".pdf" />
-        <!-- Allow only PDF files -->
+          <p>Drag & Drop PDF file here</p>
+          <!-- Label and file input element for selecting a file -->
+          <label for="file-input" id="upload-resume-label">Upload Resume</label>
+          <input type="file" id="file-input" name="pdf" accept=".pdf" />
+          <!-- Allow only PDF files -->
+        </form>
       </div>
       <ul id="file-list"></ul>
 
