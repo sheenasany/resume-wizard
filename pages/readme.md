@@ -1,0 +1,1 @@
+full page templates go here
