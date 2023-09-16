@@ -1,11 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/public/style/style.css" />
+    <title>Resume Wizard</title>
 </head>
 <body>
-  <h1>Welcome to the Home Page</h1>
+    <div class="final-homepage">
+        <div class="div">
+            <div class="overlap">
+            <div class="overlap-group">
+                <a class="resume-wizard" href="/">RESUME WIZARD</a>
+                <img class="small-wand" src="/public/images/small-wand.png" style="top: -20px;"/>
+          </div>
+          <a class="home" href="/">HOME</a>
+          <div class="overlap-2">
+            <a class="analyze-resume" href="/app">ANALYZE&nbsp;&nbsp;RESUME</a>
+            <a class="settings" href="/settings">SETTINGS</a>
+          </div>
+        </div>
+        <div class="overlap-3">
+          <p class="LET-RESUME-WIZARD-DO">
+            <span class="span">LET RESUME WIZARD DO THE </span>
+            <span class="text-wrapper-4">MAGIC</span>
+            <span class="span"> FOR YOU</span>
+          </p>
+          <p class="within-the-realm-of">
+            Within the realm of web applications, meet the Resume Wizard. It employs the web&#39;s prowess to align your
+            skills with job descriptions and deploys AI enhancements to bolster your resume&#39;s prospects with utmost
+            sophistication
+          </p>
+          <div class="overlap-group-2">
+            <button 
+                class="start-button" 
+                style="z-index: 999;"
+                hx-post="/app" 
+                hx-trigger="click" 
+                hx-target="this">START</button>
+          </div>
+          <div class="overlap-4">
+            <img class="img" src="/public/images/logo-wand-big.png" />
+            <div class="upload-resume-and">Upload Resume<br />and job listing</div>
+            <div class="AI-tool-analyzes">AI tool analyzes<br />your submissions</div>
+            <div class="view-recommended">View recommended<br />improvements</div>
+            <img class="upload-icon" src="/public/images/upload-icon.png" />
+            <img class="view-recs-icon" src="/public/images/view-recs-icon.png" />
+            <img class="magic-wand" src="/public/images/magic-wand.png" />
+            <img class="bottom-circuits" src="/public/images/bottom-circuits.png" />
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </body>
 </html>
