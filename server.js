@@ -108,7 +108,7 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       personExperience.message.function_call.arguments
     );
 
-    console.log(personExperienceJson);
+    //console.log(personDetailsJson);
 
     const dbres = await db.query(
       "INSERT INTO person (first_name, last_name, email, phone_number, link_1, link_2) VALUES (?, ?, ?, ?, ?, ?)",
@@ -142,9 +142,13 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
         personEducationJson.graduationDate,
       ]
     );
+
+    const [personID] = await db.query("SELECT * FROM person WHERE first_name = ? AND last_name = ? LIMIT 1", [personDetailsJson.firstname, personDetailsJson.lastname]);
+    //console.log(personID);
+
     const skills = personSkillsJson.skills
       .split(",")
-      .map((i) => `('${personDetails.person_id}', '${i.trim()}')`)
+      .map((i) => `('${personID.person_id}', '${i.trim()}')`)
       .join(",");
 
     const dbskill = await db.query(
