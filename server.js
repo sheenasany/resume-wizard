@@ -86,27 +86,29 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       messages,
       ai.extractPersonDetails
     );
-    // const personSkills = await ai.callOpenAi(messages, ai.extractPersonSkills);
-    // const personEducation = await ai.callOpenAi(
-    //   messages,
-    //   ai.extractPersonEducation
-    // );
-    // const personExperience = await ai.callOpenAi(
-    //   messages,
-    //   ai.extractPersonExperience
-    // );
+    const personSkills = await ai.callOpenAi(messages, ai.extractPersonSkills);
+    const personEducation = await ai.callOpenAi(
+      messages,
+      ai.extractPersonEducation
+    );
+    const personExperience = await ai.callOpenAi(
+      messages,
+      ai.extractPersonExperience
+    );
     const personDetailsJson = JSON.parse(
       personDetails.message.function_call.arguments
     );
-    // const personEducationJson = JSON.parse(
-    //   personEducation.message.function_call.arguments
-    // );
-    // const personSkillsJson = JSON.parse(
-    //   personSkills.message.function_call.arguments
-    // );
-    // const personExperienceJson = JSON.parse(
-    //   personExperience.message.function_call.arguments
-    // );
+    const { education: personEducationJson } = JSON.parse(
+      personEducation.message.function_call.arguments
+    );
+    const personSkillsJson = JSON.parse(
+      personSkills.message.function_call.arguments
+    );
+    const { experience: personExperienceJson } = JSON.parse(
+      personExperience.message.function_call.arguments
+    );
+
+    console.log(personExperienceJson);
 
     const dbres = await db.query(
       "INSERT INTO person (first_name, last_name, email, phone_number, link_1, link_2) VALUES (?, ?, ?, ?, ?, ?)",
@@ -118,6 +120,36 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
         personDetailsJson.link1,
         personDetailsJson.link2,
       ]
+    );
+
+    const dbexp = await db.query(
+      "INSERT INTO experience (job_title, company_name, start_date, end_date, description) VALUES (?, ?, ?, ?, ?)",
+      [
+        personExperienceJson.title,
+        personExperienceJson.company,
+        personExperienceJson.start,
+        personExperienceJson.end,
+        personExperienceJson.description,
+      ]
+    );
+
+    const dbedu = await db.query(
+      "INSERT INTO education (institution_name, degree, field_of_study, graduation_date) VALUES (?, ?, ?, ? )",
+      [
+        personEducationJson.name,
+        personEducationJson.degree,
+        personEducationJson.major,
+        personEducationJson.graduationDate,
+      ]
+    );
+    const skills = personSkillsJson.skills
+      .split(",")
+      .map((i) => `('${personDetails.person_id}', '${i.trim()}')`)
+      .join(",");
+
+    const dbskill = await db.query(
+      `INSERT INTO person_skill (person_id, skill_text) VALUES ${skills}`,
+      []
     );
 
     res.render("partials/disabled-form", { name });
@@ -150,7 +182,7 @@ app.get("/Settings", (req, res) => {
 // Define a route to handle the query
 app.get("/query", async (req, res) => {
   try {
-    const rows = await db.query("SELECT * FROM person", []);
+    const rows = await db.query("SELECT * FROM person_skill", []);
     // res.render("partials/queryResult", { rows });
     res.send(rows);
   } catch (error) {

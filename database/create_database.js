@@ -32,7 +32,7 @@ const createEducationTableQuery = `
     CREATE TABLE education (
         education_id INTEGER PRIMARY KEY AUTOINCREMENT,
         person_id INTEGER,
-        institution_name TEXT,
+        institution_name VARCHAR(255),
         degree TEXT,
         field_of_study TEXT,
         graduation_date TEXT,
@@ -40,12 +40,6 @@ const createEducationTableQuery = `
     );
 `;
 
-const createSkillTableQuery = `
-    CREATE TABLE skill (
-        skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        skill_name TEXT
-    );
-`;
 
 const createJobTableQuery = `
     CREATE TABLE job (
@@ -85,10 +79,9 @@ const createPersonEducationTableQuery = `
 const createPersonSkillTableQuery = `
     CREATE TABLE person_skill (
         person_id INTEGER,
-        skill_id INTEGER,
-        PRIMARY KEY (person_id, skill_id),
-        FOREIGN KEY (person_id) REFERENCES person(person_id),
-        FOREIGN KEY (skill_id) REFERENCES skill(skill_id)
+        skill_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        skill_text TEXT,
+        FOREIGN KEY (person_id) REFERENCES person(person_id)
     );
 `;
 
@@ -136,7 +129,6 @@ db.serialize(() => {
     createPersonEducationTableQuery,
     createExperienceTableQuery,
     createEducationTableQuery,
-    createSkillTableQuery,
     createJobTableQuery,
     createApplicantJobTableQuery,
     createJobSkillTableQuery,
