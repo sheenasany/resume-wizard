@@ -26,8 +26,7 @@
     }
   </style>
 
-  <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data" hx-post="api/upload"
-    hx-swap="outerHTML" hx-params="*" id="demoform" action="" disabled="disabled">
+<form hx-get="/api/person?id=<%= id %>" hx-swap="outerHTML" hx-params="*" id="demoform" action="" disabled="disabled">
     <h2>Upload Your Resume</h2>
     <div id="drop-area">
       <p>Drag & Drop PDF file here</p>
@@ -37,7 +36,7 @@
       <!-- Allow only PDF files -->
     </div>
     <ul id="file-list">
-
+      <%= name %>
     </ul>
     <button type="submit">Submit</button>
   </form>
