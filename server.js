@@ -127,7 +127,8 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       [personDetailsJson.firstname, personDetailsJson.lastname]
     );
 
-    console.log(personID);
+    const id = personID.person_id;
+    console.log(personEducationJson);
 
     const dbexp = await db.query(
       "INSERT INTO experience (person_id,job_title, company_name, start_date, end_date, description) VALUES (?, ?, ?, ?, ?, ?)",
@@ -154,21 +155,41 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
 
     //console.log(personID);
 
-    const skills = personSkillsJson.skills
-      .split(",")
-      .map((i) => `('${personID.person_id}', '${i.trim()}')`)
-      .join(",");
+    const skills = personSkillsJson.skills.split(",").map((i) => i.trim());
+    const placeholders = skills
+      .map((_, index) => `($1, $${index + 2})`)
+      .join(", ");
+    const values = [personID.person_id, ...skills];
 
-    const dbskill = await db.query(
-      `INSERT INTO person_skill (person_id, skill_text) VALUES ${skills}`,
-      []
+    let queryString = `INSERT INTO person_skill (person_id, skill_text) VALUES ${placeholders}`;
+    console.log(queryString);
+
+    const dbskill = await db.query(queryString, values);
+
+    const [person] = await db.query(
+      "SELECT * FROM person WHERE person_id = ?",
+      [id]
     );
-
-    res.render("partials/details-page", { 
-      person:personDetailsJson,
-      personSkills:personSkillsJson,
-      personEducation:personEducationJson,
-      personExperience:personExperienceJson, });
+    const personSkillsa = await db.query(
+      "SELECT * FROM person_skill WHERE person_id = ?",
+      [id]
+    );
+    const personEducationa = await db.query(
+      "SELECT * FROM education WHERE person_id = ?",
+      [id]
+    );
+    const personExperiencea = await db.query(
+      "SELECT * FROM experience WHERE person_id = ?",
+      [id]
+    );
+    console.log(personExperience);
+    // console.log(person);
+    res.render("partials/details-page.ejs", {
+      person,
+      personSkills: personSkillsa,
+      personEducation: personEducation,
+      personExperience: personExperience,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
