@@ -1,164 +1,163 @@
 <div>
-    <style>
-        .info-card {
-            background-color: #f0f0f0;
-            border: 1px solid #ccc;
-            padding: 10px;
-            width: 300px;
-        }
-
-        .info-label {
-            font-weight: bold;
-        }
-    </style>
     <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+    <style>
+      body {
+        margin: 0%;
+        line-height: 1.5;
+      }
+  
+      .info-card {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 10px;
+        width: 300px;
+      }
+  
+      .info-label {
+        font-weight: bold;
+        margin: 10px 0px;
+        font-size: 18px;
+      }
+  
+      .info-label span {
+        font-weight: 300;
+        font-size: 16px;
+      }
+  
+      .details-page {
+        margin: 5% 15%;
+      }
+  
+      .resume-details {
+        background-color: #1c1127;
+        color: #f0f0f0;
+        border-radius: 20px;
+        padding: 5% 7%;
+      }
+  
+      ul {
+        list-style-type: none;
+      }
+  
+      .continue-button {
+        background-color: #769c99;
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 15px 70px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 30px;
+      }
+  
+      .go-back-button {
+        background-color: #a05f83;
+        border: none;
+        color: white;
+        font-weight: 600;
+        padding: 15px 70px;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 20px;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 30px;
+        margin-right: 20px;
+      }
+  
+      .details-button {
+        display: flex;
+        justify-content: center;
+      }
+  
+      h2 {
+        margin-bottom: 25px;
+      }
+    </style>
+  
     <div class="details-page">
+      <div class="resume-details">
         <h2>Extracted Resume Details</h2>
-        <div class="info-label">Full Name: 
-            <span>Rowan Wolf Osmon</span>
+        <div class="info-label">Full Name:
+            <span>
+                <%= person.first_name %>
+                    <%= person.last_name %>
+            </span>
         </div>
-        <div class="info-label">Email: <span>rowanosmon@gmail.com</span></div>
-        <div class="info-label">Phone Number: <span>999-999-9999</span> </div>
-        <div class="info-label">Bio Summary: <span>blah blah blah</span></div>
+        <div class="info-label">Email: <span>
+                <%= person.email %>
+            </span></div>
+        <div class="info-label">Phone Number: <span>
+                <%= person.phone_number %>
+            </span> </div>
+        <div class="info-label">Bio Summary: <span>
+                <%= person.summary %>
+            </span></div>
         <div class="info-label">Links: <ul>
-                <div>
-                    <span class="info-label">
-                        <li>LinkedIn: http://linkedin.com/rowan</li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Github: http://github.com/grumblefoot </li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Website: grumblefoot.com</li>
-                    </span>
-                </div>
+                <% if (person.link_1 !==null && person.link_1 !==undefined) { %>
+                    <li>Link: <%= person.link_1 %>
+                    </li>
+                    <% } %>
+
+                        <% if (person.link_2 !==null && person.link_2 !==undefined) { %>
+                            <li>Link: <%= person.link_2 %>
+                            </li>
+                            <% } %>
+
+                                <% if (person.link_3 !==null && person.link_3 !==undefined) { %>
+                                    <li>Link: <%= person.link_3 %>
+                                    </li>
+                                    <% } %>
+
             </ul>
         </div>
         <div class="info-label">Job Experience:
             <ul>
-                <div>
-                    <span class="info-label">
-                        <li>Company: Microsoft</li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Date Range: 2017-present </li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Summary: Did awesome stuff</li>
-                    </span>
-                </div>
-            </ul>
-        </div>
-        <div class="info-label">Project Experiences:
-
-            <ul>
-                <div class="info-label">Project 1:
-                    <ul>
+                <% for(let i=0; i < personExperience.length; i++) { %>
+                    <li>
                         <div>
-                            <span class="info-label">
-                                <li>Name: The things </li>
+                            <span>
+                                <%= personExperience[i].job_title %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].company_name %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].start_date %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].end_date %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].description %>
                             </span>
                         </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Link: thething.com </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Tech Stack: lots of tech </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Summary: it does the thing </li>
-                            </span>
-                        </div>
-                    </ul>
-                </div>
-            </ul>
-
-            <ul>
-                <div class="info-label">Project 2:
-                    <ul>
-                        <div>
-                            <span class="info-label">
-                                <li>Name: That thing </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Link: thatthing.com </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Tech Stack: does all those things</li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Summary: That thing is legit</li>
-                            </span>
-                        </div>
-                    </ul>
-                </div>
+                    </li>
+                    <% } %>
             </ul>
         </div>
         <div class="info-label">Skills:
             <ul>
-                <div>
-                    <span class="info-label">
-                        <li>Programming Languages: knows lots of stuff </li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Coursework Skills: studied lots of stuff </li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Development Tools: used lots of stuff</li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Experience: has seen lots of things</li>
-                    </span>
-                </div>
-                <div>
-                    <span class="info-label">
-                        <li>Hobbies: does lots of things for fun</li>
-                    </span>
-                </div>
+                <% for(let i=0; i < personSkills.length; i++) { %>
+                    <li>
+                        <%= personSkills[i].skill_text %>
+                    </li>
+                    <% } %>
             </ul>
-            
-        
         </div>
-        <div class="info-label">Certifications
+        <!-- <div class="info-label">Certifications
             <div>
-                <span class="info-label">
-                    <ul>
-                        <li>has all the certs</li>
-                    </ul>
-                </span>
+              <span class="info-label">
+                <li>LinkedIn: http://linkedin.com/rowan</li>
+              </span>
             </div>
-        </div>
-        <button hx-post="/api/joblistings"
-    hx-trigger="click"
-    hx-target="#upload-form"
-    hx-swap="outerHTML"
->
-    Continue
-</button>
+        </div> -->
+        <button hx-get="/api/joblistings" hx-trigger="click" hx-target="#upload-form" hx-swap="outerHTML">
+            Continue
+        </button>
     </div>
-</div>
+  </div>
+  
