@@ -50,64 +50,25 @@
             <ul>
                 <% for(let i=0; i < personExperience.length; i++) { %>
                     <li>
-                        <%= personExperience[i].job_title %>
+                        <div>
+                            <span>
+                                <%= personExperience[i].job_title %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].company_name %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].start_date %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].end_date %>
+                            </span><br/>
+                            <span>
+                                <%= personExperience[i].description %>
+                            </span>
+                        </div>
                     </li>
                     <% } %>
-            </ul>
-        </div>
-        <div class="info-label">Project Experiences:
-            <ul>
-                <div class="info-label">Project 1:
-                    <ul>
-                        <div>
-                            <span class="info-label">
-                                <li>Name: The things </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Link: thething.com </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Tech Stack: lots of tech </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Summary: it does the thing </li>
-                            </span>
-                        </div>
-                    </ul>
-                </div>
-            </ul>
-
-            <ul>
-                <div class="info-label">Project 2:
-                    <ul>
-                        <div>
-                            <span class="info-label">
-                                <li>Name: That thing </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Link: thatthing.com </li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Tech Stack: does all those things</li>
-                            </span>
-                        </div>
-                        <div>
-                            <span class="info-label">
-                                <li>Summary: That thing is legit</li>
-                            </span>
-                        </div>
-                    </ul>
-                </div>
             </ul>
         </div>
         <div class="info-label">Skills:
