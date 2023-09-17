@@ -9,6 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 const ai = new LLM();
 
 const Database = require("./database/database.js");
+const scraper = require("./lib/scraper");
 
 // Set EJS as the view engine
 app.set("view engine", "ejs");
@@ -176,11 +177,13 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
 });
 
 
-app.post("/api/jobRequest", async (req, res) => {
-const URL = req.body.URL;
-  //send to scraper
-  
-
+app.get("/api/jobRequest", async (req, res) => {
+//send to scraper
+  const myurl = "https://getwork.com/search/results?keyword=software+engineer&company_ids=&location=&jobId=bc76c8963dd9d02af0335b53567c01bb";
+  const content = await scraper(myurl); // Use the provided URL from the request body
+  // Send the content as plain text
+  console.log(content);
+  res.send(content);
 });
 
 // Define routes for home page, App, and Settings
