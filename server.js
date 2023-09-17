@@ -164,7 +164,11 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       []
     );
 
-    res.render("partials/disabled-form", { id: personID.person_id, name });
+    res.render("partials/details-page", { 
+      person:personDetailsJson,
+      personSkills:personSkillsJson,
+      personEducation:personEducationJson,
+      personExperience:personExperienceJson, });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
