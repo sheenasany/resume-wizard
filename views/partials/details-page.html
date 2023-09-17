@@ -1,4 +1,10 @@
 <div>
+  <script
+    src="https://unpkg.com/htmx.org@1.9.5"
+    integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+    crossorigin="anonymous"
+  ></script>
+
   <style>
     body {
       margin: 0%;
@@ -241,7 +247,7 @@
         class="go-back-button"
         hx-post="/api/joblistings"
         hx-trigger="click"
-        hx-target="#upload-form"
+        hx-target="html"
         hx-swap="outerHTML"
       >
         Go Back
