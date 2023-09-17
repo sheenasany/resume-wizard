@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="/style/appstyle.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
     <title>App Page</title>
   </head>
   <body>
@@ -58,82 +59,110 @@
     <div class= "button-container">
       <button type="submit">Submit</button>
     </div>
-      <div class="bottom-image"></div>
     </form>
+    <div class="bottom-image"></div>
   </main>
-    
-      <script>
-        const dropArea = document.getElementById("drop-area");
-        const fileList = document.getElementById("file-list");
-        const fileInput = document.getElementById("file-input");
 
-        // Handle the change event when a file is selected
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  const listItem = document.createElement("li");
-  
-  // Create a container for the image and text
-  const container = document.createElement("div");
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileList = document.getElementById("file-list");
+    const fileInput = document.getElementById("file-input");
 
-  const removeButton = document.createElement("button");
-  const image = document.createElement("img");
-  image.src = "/images/file-upload.png";
+    // Function to remove a file from the list
+    function removeFile(item) {
+      fileList.removeChild(item);
+    }
 
-  // Append the image and text to the container
-  container.appendChild(image);
-  container.appendChild(document.createTextNode(file.name));
+    // Handle the change event when a file is selected
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      const listItem = document.createElement("li");
 
-  listItem.appendChild(container);
+      // Create a container for the image, text, and icon
+      const container = document.createElement("div");
 
-  removeButton.textContent = "Remove";
-  removeButton.className = "remove-button";
+      // Create an icon element with a locally hosted image
+      const removeIcon = document.createElement("img");
 
-  // Add a click event listener to the remove button
-  removeButton.addEventListener("click", () => {
-    removeFile(listItem);
-  });
+      const image = document.createElement("img");
+      image.src = "/images/file-upload.png";
 
-  listItem.appendChild(removeButton);
-  fileList.appendChild(listItem);
-});
+      // Append the icon, image, and text to the container
+      container.appendChild(removeIcon);
+      container.appendChild(image);
+      container.appendChild(document.createTextNode(file.name));
 
+      listItem.appendChild(container);
+
+      // Create a button for removing the file
+      const removeButton = document.createElement("button");
+      removeButton.textContent = "Remove";
+      removeButton.className = "remove-button";
+
+      // Add a click event listener to the remove button
+      removeButton.addEventListener("click", () => {
+        removeFile(listItem);
+      });
+
+      listItem.appendChild(removeButton);
+      fileList.appendChild(listItem);
+      document.getElementById("submit-button").style.display = "block";
+    });
+
+    // Prevent the default behavior of the drop event
+    dropArea.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropArea.classList.add("active");
+    });
+
+    // Restore the default drop area style
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.classList.remove("active");
+    });
+
+    // Handle the dropped files
+    dropArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropArea.classList.remove("active");
+
+      const files = e.dataTransfer.files;
+
+      // Display the dropped files
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const listItem = document.createElement("li");
+
+        // Create a container for the image, text, and icon
+        const container = document.createElement("div");
+
+        // Create an icon element with a locally hosted image
+        const removeIcon = document.createElement("img");
+
+        const image = document.createElement("img");
+        image.src = "/images/file-upload.png";
+
+        // Append the icon, image, and text to the container
+        container.appendChild(removeIcon);
+        container.appendChild(image);
+        container.appendChild(document.createTextNode(file.name));
+
+        listItem.appendChild(container);
+
+        // Create a button for removing the file
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "Remove";
+        removeButton.className = "remove-button";
+
+        // Add a click event listener to the remove button
+        removeButton.addEventListener("click", () => {
+          removeFile(listItem);
+        });
+
+        listItem.appendChild(removeButton);
+        fileList.appendChild(listItem);
+      }
+    });
   </script>
-  </div>
-</body>
-<script>
-        // Restore the default drop area style
-        dropArea.addEventListener("dragleave", () => {
-          dropArea.classList.remove("active");
-        });
 
-        // Handle the dropped files
-        dropArea.addEventListener("drop", (e) => {
-          e.preventDefault();
-          dropArea.classList.remove("active");
-
-          const files = e.dataTransfer.files;
-
-          // Display the dropped files
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const listItem = document.createElement("li");
-            const removeButton = document.createElement("button");
-
-            listItem.appendChild(image);
-            listItem.textContent = `${file.name}`;
-            removeButton.textContent = "Remove";
-            removeButton.className = "remove-button";
-
-            // Add a click event listener to the remove button
-            removeButton.addEventListener("click", () => {
-              removeFile(listItem);
-            });
-
-            listItem.appendChild(removeButton);
-            fileList.appendChild(listItem);
-          }
-        });
-      </script>
-    </div>
   </body>
 </html>
