@@ -10,6 +10,10 @@ body {
   font-style: italic;
 }
 
+button {
+  font-weight: 600;
+}
+
 /* Top Image */
 .top-image {
   background-image: url('/images/top-circuits.png'); /* Replace with your image path */
