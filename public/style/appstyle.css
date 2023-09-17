@@ -4,14 +4,20 @@ body {
   font-family: 'Inconsolata', monospace;
   font-family: 'Inter', sans-serif;
   color: #fffffc;
-}
-
-.italic {
-  font-style: italic;
+  margin: 0%;
 }
 
 button {
-  font-weight: 600;
+  background-color: #769c99;
+  border: none;
+  color: white;
+  padding: 15px 70px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 16px;
+  margin-top: 30px;
 }
 
 /* Top Image */
@@ -59,6 +65,10 @@ nav {
   top: 0;
 }
 
+.pdf {
+  width: 40px;
+}
+
 .left-link {
   order: 1; /* Make it appear first on the left */
 }
@@ -77,80 +87,86 @@ nav a:hover {
   text-decoration: underline;
 }
 
-/* MAIN CONTENT */
-
-.main {
-  margin: 10%;
-  margin-top: 4%;
+.resume-upload {
+  margin: 0% 30%;
 }
 
-h1 {
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 36px;
-  margin-bottom: 15px;
-}
-
-p {
-  font-size: 20px;
-  opacity: 0.8;
-}
-
-button {
-  background-color: #a05f83;
-  border: none;
-  color: white;
-  padding: 15px 70px;
+#drop-area {
+  width: 100%;
+  height: 200px;
+  border: 2px solid #a05f83;
+  background-color: rgba(160, 95, 131, 0.3);
   text-align: center;
-  text-decoration: none;
   border-radius: 20px;
+  padding: 20px;
+  margin: auto;
+}
+
+#file-list {
+  list-style: none;
+  padding: 0;
+}
+
+#file-list li {
+  margin: 30px 0;
+  border: 2px solid #a05f83;
+  background-color: rgba(160, 95, 131, 0.3);
+
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 20px;
+  align-items: center;
+}
+
+/* Style for the "Upload Resume" button */
+#upload-resume-label {
   display: inline-block;
-  font-size: 16px;
-  margin-top: 30px;
-}
-
-.big-logo {
-  width: 450px;
-  margin-left: 20px;
-}
-
-.icons {
-  width: 80px;
-}
-
-.magic-wand {
-  width: 100px;
-}
-
-.view-recs {
-  width: 85px;
-}
-
-.icons-section {
-  margin-top: 20px;
-}
-
-.icon-text {
-  margin-top: 20px;
+  background-color: #769c99;
+  color: #fff;
   font-weight: 500;
+  padding: 10px 35px;
+  border-radius: 30px;
+  cursor: pointer;
 }
 
-/* Float Animation */
-@keyframes float-rotate {
-  0% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-20px) rotate(-10deg);
-  }
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
+/* Hide the file input element */
+#file-input {
+  display: none;
 }
 
-.big-logo {
-  overflow: hidden;
-  transform: translateY(0px) rotate(-20deg);
-  animation: float-rotate 3s ease-in-out infinite;
-  animation-fill-mode: forwards;
+.remove-button {
+  background-color: #ff0000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0%;
+  margin-right: 10px;
+}
+
+#drop-area p {
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+main {
+  margin: 9% 0%;
+}
+
+ul img {
+  width: 30px;
+  margin: 10px 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
 }
