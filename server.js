@@ -120,11 +120,38 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       ]
     );
 
-    res.render("partials/disabled-form", { name });
+    const [{ person_id }] = await db.query(
+      "SELECT person_id FROM person WHERE first_name = ? limit 1",
+      ["Earl"]
+    );
+
+    console.log("dbres", person_id);
+    res.render("partials/disabled-form", { id: person_id, name });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
   }
+});
+
+app.get("/api/person", async (req, res) => {
+  const id = req.query.id;
+  const [person] = await db.query("SELECT * FROM person WHERE person_id = ?", [
+    id,
+  ]);
+  // const [personSkills] = await db.query(
+  //   "SELECT * FROM person_skill WHERE person_id = ?",
+  //   []
+  // );
+  // const [personEducation] = await db.query(
+  //   "SELECT * FROM person_education WHERE person_id = ?",
+  //   []
+  // );
+  // const [personExperience] = await db.query(
+  //   "SELECT * FROM person_experience WHERE person_id = ?",
+  //   []
+  // );
+  console.log(person);
+  res.render("partials/test", { person });
 });
 
 // Define routes for home page, App, and Settings

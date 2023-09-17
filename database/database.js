@@ -13,7 +13,6 @@ class Database {
           reject(err);
           return;
         }
-
         resolve(rows);
       });
     });
