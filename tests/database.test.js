@@ -45,6 +45,39 @@ describe('Database Operations', () => {
   });
 
   // Add more tests for other operations as needed
+});
+
+describe('Person Schema', () => {
+  before((done) => {
+    const createDatabaseProcess = exec('node database/create_database.js', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error creating database: ${error}`);
+        return;
+      }
+      console.log(`Database created successfully: ${stdout}`);
+      done();
+    });
+  });
+
+  it('should be able to insert a new person', (done) => {
+    db.run('INSERT INTO person (person_id, first_name, last_name, email, phone_number, link_1, link_2, link_3, summary) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [1, 'John', 'Doe', 'john@example.com', '123-456-7890', 'link1', 'link2', 'link3', 'Summary'],
+      (err) => {
+        expect(err).to.be.null;
+        done();
+      });
+  });
+
+  it('should be able to query data from person', (done) => {
+    db.all('SELECT * FROM person WHERE person_id = ?', [1], (err, rows) => {
+      expect(err).to.be.null;
+      expect(rows).to.be.an('array');
+      expect(rows).to.have.lengthOf(1);
+      expect(rows[0].first_name).to.equal('John');
+      // Add more assertions as needed
+      done();
+    });
+  });
 
   after((done) => {
     db.close((err) => {
