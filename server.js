@@ -163,6 +163,14 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
   }
 });
 
+
+app.post("/api/jobRequest", async (req, res) => {
+const URL = req.body.URL;
+  //send to scraper
+  
+
+});
+
 // Define routes for home page, App, and Settings
 app.get("/", (req, res) => {
   res.render("pages/home");
