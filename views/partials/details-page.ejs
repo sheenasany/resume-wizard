@@ -11,29 +11,29 @@
             font-weight: bold;
         }
     </style>
-
+    <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
     <div class="details-page">
         <h2>Extracted Resume Details</h2>
         <div class="info-label">Full Name: 
             <span>Rowan Wolf Osmon</span>
         </div>
-        <div class="info-label">Email:<span>rowanosmon@gmail.com</span></div>
+        <div class="info-label">Email: <span>rowanosmon@gmail.com</span></div>
         <div class="info-label">Phone Number: <span>999-999-9999</span> </div>
         <div class="info-label">Bio Summary: <span>blah blah blah</span></div>
-        <div class="info-label">Links: <input disabled/>            <ul>
+        <div class="info-label">Links: <ul>
                 <div>
                     <span class="info-label">
-                        <li>LinkedIn: </li>
+                        <li>LinkedIn: http://linkedin.com/rowan</li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Github: </li>
+                        <li>Github: http://github.com/grumblefoot </li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Website: </li>
+                        <li>Website: grumblefoot.com</li>
                     </span>
                 </div>
             </ul>
@@ -42,17 +42,17 @@
             <ul>
                 <div>
                     <span class="info-label">
-                        <li>Company: </li>
+                        <li>Company: Microsoft</li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Date Range: </li>
+                        <li>Date Range: 2017-present </li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Summary: </li>
+                        <li>Summary: Did awesome stuff</li>
                     </span>
                 </div>
             </ul>
@@ -64,22 +64,22 @@
                     <ul>
                         <div>
                             <span class="info-label">
-                                <li>Name: </li>
+                                <li>Name: The things </li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Link:  </li>
+                                <li>Link: thething.com </li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Tech Stack: </li>
+                                <li>Tech Stack: lots of tech </li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Summary: </li>
+                                <li>Summary: it does the thing </li>
                             </span>
                         </div>
                     </ul>
@@ -91,22 +91,22 @@
                     <ul>
                         <div>
                             <span class="info-label">
-                                <li>Name: </li>
+                                <li>Name: That thing </li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Link:  </li>
+                                <li>Link: thatthing.com </li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Tech Stack: </li>
+                                <li>Tech Stack: does all those things</li>
                             </span>
                         </div>
                         <div>
                             <span class="info-label">
-                                <li>Summary: </li>
+                                <li>Summary: That thing is legit</li>
                             </span>
                         </div>
                     </ul>
@@ -117,27 +117,27 @@
             <ul>
                 <div>
                     <span class="info-label">
-                        <li>Programming Languages: </li>
+                        <li>Programming Languages: knows lots of stuff </li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Coursework Skills:  </li>
+                        <li>Coursework Skills: studied lots of stuff </li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Development Tools: </li>
+                        <li>Development Tools: used lots of stuff</li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Experience: </li>
+                        <li>Experience: has seen lots of things</li>
                     </span>
                 </div>
                 <div>
                     <span class="info-label">
-                        <li>Hobbies: </li>
+                        <li>Hobbies: does lots of things for fun</li>
                     </span>
                 </div>
             </ul>
@@ -148,10 +148,17 @@
             <div>
                 <span class="info-label">
                     <ul>
-                        <li></li>
+                        <li>has all the certs</li>
                     </ul>
                 </span>
             </div>
         </div>
+        <button hx-post="/api/joblistings"
+    hx-trigger="click"
+    hx-target="#upload-form"
+    hx-swap="outerHTML"
+>
+    Continue
+</button>
     </div>
 </div>
