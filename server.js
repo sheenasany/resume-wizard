@@ -45,12 +45,14 @@ function makeTextNatural(rawText) {
 }
 
 app.post("/api/upload", upload.single("resume"), async (req, res) => {
-  //console.log("File", req.file);
+  console.log("File", req.file);
 
   // Check if a file is uploaded
   if (!req.file) {
     return res.status(400).send("Error: No file uploaded");
   }
+
+  const name = req.file.originalname;
 
   // Validate file type (assuming 'mimetype' property exists in your req.file)
   if (req.file.mimetype !== "application/pdf") {
@@ -68,6 +70,7 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
     // Process the data and insert it into the database
     // Example:
     const textContent = data.text;
+    // console.log("Text content", textContent);
     // Insert 'textContent' into your database
     const messages = [
       {
@@ -83,34 +86,41 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
       messages,
       ai.extractPersonDetails
     );
-    const personSkills = await ai.callOpenAi(messages, ai.extractPersonSkills);
-    const personEducation = await ai.callOpenAi(
-      messages,
-      ai.extractPersonEducation
-    );
-    const personExperience = await ai.callOpenAi(
-      messages,
-      ai.extractPersonExperience
-    );
+    // const personSkills = await ai.callOpenAi(messages, ai.extractPersonSkills);
+    // const personEducation = await ai.callOpenAi(
+    //   messages,
+    //   ai.extractPersonEducation
+    // );
+    // const personExperience = await ai.callOpenAi(
+    //   messages,
+    //   ai.extractPersonExperience
+    // );
     const personDetailsJson = JSON.parse(
       personDetails.message.function_call.arguments
     );
-    const personEducationJson = JSON.parse(
-      personEducation.message.function_call.arguments
-    );
-    const personSkillsJson = JSON.parse(
-      personSkills.message.function_call.arguments
-    );
-    const personExperienceJson = JSON.parse(
-      personExperience.message.function_call.arguments
+    // const personEducationJson = JSON.parse(
+    //   personEducation.message.function_call.arguments
+    // );
+    // const personSkillsJson = JSON.parse(
+    //   personSkills.message.function_call.arguments
+    // );
+    // const personExperienceJson = JSON.parse(
+    //   personExperience.message.function_call.arguments
+    // );
+
+    const dbres = await db.query(
+      "INSERT INTO person (first_name, last_name, email, phone_number, link_1, link_2) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        personDetailsJson.firstname,
+        personDetailsJson.lastname,
+        personDetailsJson.email,
+        personDetailsJson.phonenumber,
+        personDetailsJson.link1,
+        personDetailsJson.link2,
+      ]
     );
 
-    res.send({
-      personExperienceJson,
-      personDetailsJson,
-      personEducationJson,
-      personSkillsJson,
-    });
+    res.render("partials/disabled-form", { name });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
@@ -140,19 +150,20 @@ app.get("/Settings", (req, res) => {
 // Define a route to handle the query
 app.get("/query", async (req, res) => {
   try {
-    const rows = await db.query("SELECT * FROM experience", []);
-    res.render("partials/queryResult", { rows });
+    const rows = await db.query("SELECT * FROM person", []);
+    // res.render("partials/queryResult", { rows });
+    res.send(rows);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   } finally {
-    db.close((err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log("Database connection closed");
-    });
+    // db.close((err) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   console.log("Database connection closed");
+    // });
   }
 });
 
