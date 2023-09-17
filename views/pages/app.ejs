@@ -1,129 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <link rel="stylesheet" href="/style/appstyle.css" />
-    <title>App Page</title>
-  </head>
-  <body>
-    <div class="top-image"></div>
-    <header>
-      <nav>
-          <div class="left-link">
-            <div class="resume-wizard">
-              <img src="/images/small-wand.png" class="logo"/>
-              <a href="/">Resume Wizard</a>
-           </div>
-          </div>
-          <div class="right-links">
-              <a href="/">Home</a>
-              <a href="/app">Analyze</a>
-              <a href="/settings">Settings</a>
-          </div>
-      </nav>
-    </header>
-    <main>
-      <form hx-post="/api/upload" hx-target="this" hx-swap="outerHTML" hx-params="*" id="workshopform" enctype="multipart/form-data">
-<div class="resume-upload">
-      <h3>Upload Your Resume</h3>
-      <div id="drop-area">
-        <div id="drop-content">
-        <img src="/images/pdf-file.png" class="pdf"/>
-        <p>Drag and Drop PDF file here</p>
-        <!-- Label and file input element for selecting a file -->
-        <label for="file-input" id="upload-resume-label">Upload Resume</label>
-        <input type="file" id="file-input" name="resume" accept=".pdf" />
-      </div>
-        <!-- Allow only PDF files -->
-      </div>
-      <ul id="file-list"></ul>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style/appstyle.css" />
+  <script src="https://unpkg.com/htmx.org@1.9.5" integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO" crossorigin="anonymous"></script>
+  <title>App Page</title>
+</head>
 
-    </div>
-    <div class= "button-container">
-      <button type="submit">Submit</button>
-    </div>
+<body>
+  <div class="top-image"></div>
+  <header>
+    <nav>
+      <div class="left-link">
+        <div class="resume-wizard">
+          <img src="/images/small-wand.png" class="logo" />
+          <a href="/">Resume Wizard</a>
+        </div>
+      </div>
+      <div class="right-links">
+        <a href="/">Home</a>
+        <a href="/app">Analyze</a>
+        <a href="/settings">Settings</a>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <form hx-post="/api/upload" hx-target="this" hx-swap="outerHTML" hx-params="*" id="workshopform"
+      enctype="multipart/form-data">
+      <div class="resume-upload">
+        <h3>Upload Your Resume</h3>
+        <div id="drop-area">
+          <div id="drop-content">
+            <img src="/images/pdf-file.png" class="pdf" />
+            <p>Drag and Drop PDF file here</p>
+            <!-- Label and file input element for selecting a file -->
+            <label for="file-input" id="upload-resume-label">Upload Resume</label>
+            <input type="file" id="file-input" name="resume" accept=".pdf" />
+          </div>
+          <!-- Allow only PDF files -->
+        </div>
+        <ul id="file-list"></ul>
+
+      </div>
+      <div class="button-container">
+        <button type="submit">Submit</button>
+      </div>
       <div class="bottom-image"></div>
     </form>
   </main>
-    
-      <script>
-        const dropArea = document.getElementById("drop-area");
-        const fileList = document.getElementById("file-list");
-        const fileInput = document.getElementById("file-input");
+  <script>
+    const dropArea = document.getElementById("drop-area");
+    const fileList = document.getElementById("file-list");
+    const fileInput = document.getElementById("file-input");
 
-        // Handle the change event when a file is selected
-fileInput.addEventListener("change", () => {
-  const file = fileInput.files[0];
-  const listItem = document.createElement("li");
-  
-  // Create a container for the image and text
-  const container = document.createElement("div");
+    // Handle the change event when a file is selected
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files[0];
+      const listItem = document.createElement("li");
 
-  const removeButton = document.createElement("button");
-  const image = document.createElement("img");
-  image.src = "/images/file-upload.png";
+      // Create a container for the image and text
+      const container = document.createElement("div");
 
-  // Append the image and text to the container
-  container.appendChild(image);
-  container.appendChild(document.createTextNode(file.name));
+      const removeButton = document.createElement("button");
+      const image = document.createElement("img");
+      image.src = "/images/file-upload.png";
 
-  listItem.appendChild(container);
+      // Append the image and text to the container
+      container.appendChild(image);
+      container.appendChild(document.createTextNode(file.name));
 
-  removeButton.textContent = "Remove";
-  removeButton.className = "remove-button";
+      listItem.appendChild(container);
 
-  // Add a click event listener to the remove button
-  removeButton.addEventListener("click", () => {
-    removeFile(listItem);
-  });
+      removeButton.textContent = "Remove";
+      removeButton.className = "remove-button";
 
-  listItem.appendChild(removeButton);
-  fileList.appendChild(listItem);
-});
+      // Add a click event listener to the remove button
+      removeButton.addEventListener("click", () => {
+        removeFile(listItem);
+      });
+
+      listItem.appendChild(removeButton);
+      fileList.appendChild(listItem);
+    });
 
   </script>
-  </div>
 </body>
-<script>
-        // Restore the default drop area style
-        dropArea.addEventListener("dragleave", () => {
-          dropArea.classList.remove("active");
+<div>
+  <script>
+    // Restore the default drop area style
+    dropArea.addEventListener("dragleave", () => {
+      dropArea.classList.remove("active");
+    });
+
+    // Handle the dropped files
+    dropArea.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropArea.classList.remove("active");
+
+      const files = e.dataTransfer.files;
+
+      // Display the dropped files
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const listItem = document.createElement("li");
+        const removeButton = document.createElement("button");
+
+        listItem.appendChild(image);
+        listItem.textContent = `${file.name}`;
+        removeButton.textContent = "Remove";
+        removeButton.className = "remove-button";
+
+        // Add a click event listener to the remove button
+        removeButton.addEventListener("click", () => {
+          removeFile(listItem);
         });
 
-        // Handle the dropped files
-        dropArea.addEventListener("drop", (e) => {
-          e.preventDefault();
-          dropArea.classList.remove("active");
+        listItem.appendChild(removeButton);
+        fileList.appendChild(listItem);
+      }
+    });
+  </script>
+</div>
+</body>
 
-          const files = e.dataTransfer.files;
-
-          // Display the dropped files
-          for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const listItem = document.createElement("li");
-            const removeButton = document.createElement("button");
-
-            listItem.appendChild(image);
-            listItem.textContent = `${file.name}`;
-            removeButton.textContent = "Remove";
-            removeButton.className = "remove-button";
-
-            // Add a click event listener to the remove button
-            removeButton.addEventListener("click", () => {
-              removeFile(listItem);
-            });
-
-            listItem.appendChild(removeButton);
-            fileList.appendChild(listItem);
-          }
-        });
-      </script>
-    </div>
-  </body>
 </html>
