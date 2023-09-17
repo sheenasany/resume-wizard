@@ -44,7 +44,7 @@ function makeTextNatural(rawText) {
   return text;
 }
 
-app.post("/upload", upload.single("resume"), async (req, res) => {
+app.post("/api/upload", upload.single("resume"), async (req, res) => {
   //console.log("File", req.file);
 
   // Check if a file is uploaded
@@ -79,16 +79,38 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
         content: textContent,
       },
     ];
-    const personDetails = await ai.callOpenAi(messages, ai.extractPersonDetails);
+    const personDetails = await ai.callOpenAi(
+      messages,
+      ai.extractPersonDetails
+    );
     const personSkills = await ai.callOpenAi(messages, ai.extractPersonSkills);
-    const personEducation = await ai.callOpenAi(messages, ai.extractPersonEducation);
-    const personExperience = await ai.callOpenAi(messages, ai.extractPersonExperience);
-    const personDetailsJson = JSON.parse(personDetails.message.function_call.arguments);
-    const personEducationJson = JSON.parse(personEducation.message.function_call.arguments);
-    const personSkillsJson = JSON.parse(personSkills.message.function_call.arguments);
-    const personExperienceJson = JSON.parse(personExperience.message.function_call.arguments);
-    
-    res.send({personExperienceJson,personDetailsJson,personEducationJson,personSkillsJson});
+    const personEducation = await ai.callOpenAi(
+      messages,
+      ai.extractPersonEducation
+    );
+    const personExperience = await ai.callOpenAi(
+      messages,
+      ai.extractPersonExperience
+    );
+    const personDetailsJson = JSON.parse(
+      personDetails.message.function_call.arguments
+    );
+    const personEducationJson = JSON.parse(
+      personEducation.message.function_call.arguments
+    );
+    const personSkillsJson = JSON.parse(
+      personSkills.message.function_call.arguments
+    );
+    const personExperienceJson = JSON.parse(
+      personExperience.message.function_call.arguments
+    );
+
+    res.send({
+      personExperienceJson,
+      personDetailsJson,
+      personEducationJson,
+      personSkillsJson,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
@@ -98,6 +120,13 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
 // Define routes for home page, App, and Settings
 app.get("/", (req, res) => {
   res.render("pages/home");
+});
+
+app.get("/test", (req, res) => {
+  res.render("partials/disabled-form");
+});
+app.post("/test", (req, res) => {
+  res.render("partials/disabled-form");
 });
 
 app.get("/App", (req, res) => {
