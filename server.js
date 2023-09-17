@@ -45,12 +45,14 @@ function makeTextNatural(rawText) {
 }
 
 app.post("/api/upload", upload.single("resume"), async (req, res) => {
-  //console.log("File", req.file);
+  console.log("File", req.file);
 
   // Check if a file is uploaded
   if (!req.file) {
     return res.status(400).send("Error: No file uploaded");
   }
+
+  const name = req.file.originalname;
 
   // Validate file type (assuming 'mimetype' property exists in your req.file)
   if (req.file.mimetype !== "application/pdf") {
@@ -68,6 +70,7 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
     // Process the data and insert it into the database
     // Example:
     const textContent = data.text;
+    // console.log("Text content", textContent);
     // Insert 'textContent' into your database
     const messages = [
       {
@@ -95,22 +98,65 @@ app.post("/api/upload", upload.single("resume"), async (req, res) => {
     const personDetailsJson = JSON.parse(
       personDetails.message.function_call.arguments
     );
-    const personEducationJson = JSON.parse(
+    const { education: personEducationJson } = JSON.parse(
       personEducation.message.function_call.arguments
     );
     const personSkillsJson = JSON.parse(
       personSkills.message.function_call.arguments
     );
-    const personExperienceJson = JSON.parse(
+    const { experience: personExperienceJson } = JSON.parse(
       personExperience.message.function_call.arguments
     );
 
-    res.send({
-      personExperienceJson,
-      personDetailsJson,
-      personEducationJson,
-      personSkillsJson,
-    });
+    //console.log(personDetailsJson);
+
+    const dbres = await db.query(
+      "INSERT INTO person (first_name, last_name, email, phone_number, link_1, link_2) VALUES (?, ?, ?, ?, ?, ?)",
+      [
+        personDetailsJson.firstname,
+        personDetailsJson.lastname,
+        personDetailsJson.email,
+        personDetailsJson.phonenumber,
+        personDetailsJson.link1,
+        personDetailsJson.link2,
+      ]
+    );
+
+    const dbexp = await db.query(
+      "INSERT INTO experience (job_title, company_name, start_date, end_date, description) VALUES (?, ?, ?, ?, ?)",
+      [
+        personExperienceJson.title,
+        personExperienceJson.company,
+        personExperienceJson.start,
+        personExperienceJson.end,
+        personExperienceJson.description,
+      ]
+    );
+
+    const dbedu = await db.query(
+      "INSERT INTO education (institution_name, degree, field_of_study, graduation_date) VALUES (?, ?, ?, ? )",
+      [
+        personEducationJson.name,
+        personEducationJson.degree,
+        personEducationJson.major,
+        personEducationJson.graduationDate,
+      ]
+    );
+
+    const [personID] = await db.query("SELECT * FROM person WHERE first_name = ? AND last_name = ? LIMIT 1", [personDetailsJson.firstname, personDetailsJson.lastname]);
+    //console.log(personID);
+
+    const skills = personSkillsJson.skills
+      .split(",")
+      .map((i) => `('${personID.person_id}', '${i.trim()}')`)
+      .join(",");
+
+    const dbskill = await db.query(
+      `INSERT INTO person_skill (person_id, skill_text) VALUES ${skills}`,
+      []
+    );
+
+    res.render("partials/disabled-form", { name });
   } catch (error) {
     console.error(error);
     res.status(500).send("Error parsing the PDF");
@@ -140,19 +186,20 @@ app.get("/Settings", (req, res) => {
 // Define a route to handle the query
 app.get("/query", async (req, res) => {
   try {
-    const rows = await db.query("SELECT * FROM experience", []);
-    res.render("partials/queryResult", { rows });
+    const rows = await db.query("SELECT * FROM person_skill", []);
+    // res.render("partials/queryResult", { rows });
+    res.send(rows);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
   } finally {
-    db.close((err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log("Database connection closed");
-    });
+    // db.close((err) => {
+    //   if (err) {
+    //     console.error(err);
+    //     return;
+    //   }
+    //   console.log("Database connection closed");
+    // });
   }
 });
 

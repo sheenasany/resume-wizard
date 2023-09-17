@@ -30,17 +30,7 @@
       </nav>
     </header>
     <main>
-    <form
-    id="upload-form"
-    action="/upload"
-    method="post"
-    enctype="multipart/form-data"
-    hx-post="api/upload"
-    hx-swap="outerHTML"
-    hx-params="*"
-    id="demoform"
-    action=""
->
+      <form hx-post="/api/upload" hx-target="this" hx-swap="outerHTML" hx-params="*" id="workshopform" enctype="multipart/form-data">
 <div class="resume-upload">
       <h3>Upload Your Resume</h3>
       <div id="drop-area">
